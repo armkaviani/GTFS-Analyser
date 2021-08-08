@@ -1,18 +1,18 @@
 '''
 Applikation: Download und Unzip eines GTFS-Feeds
-Usage: python gtfs_app_download_unzip.py
+Usage: python main.py
                       https://feedurl/feed.zip unzippath
     
 Version: 2021-05-06 ... Version 003 
 '''
 import sys
 from time import time
-from gtfs_book_modules import gtfs_book_feed_download
 from gtfs_book_modules import gtfs_book_feed_unzip
+from utilities import GTFSFeedDownloader
 import argparse
 
 
-def main():
+def gtfsAnalyzer():
     UrlFeed = "https://download.gtfs.de/germany/fv_free/latest.zip"
     FilePath = "GTFSFeeds"
 
@@ -49,14 +49,14 @@ def main():
     print("Start action.")
     start_time = time()
 
-    downloaderObj = gtfs_book_feed_download.Downer()
-    downloaderObj.download(feed_url, tmp_zip_file_name)
+    FeedDownloaderObj = GTFSFeedDownloader.FeedDownloader(UrlFeed, TempZipFile)
+    FeedDownloaderObj.Downloader()
 
     duration = time() - start_time
     print("Download finished after %.2f seconds." % duration)
 
     unzipperObject = gtfs_book_feed_unzip.Unzip()
-    unzipperObject.unzipper(unzip_path, tmp_zip_file_name)
+    unzipperObject.unzipper(FilePath, TempZipFile)
 
     duration = time() - start_time
 
@@ -64,4 +64,5 @@ def main():
     print("Everything finished after %.2f seconds." % duration)
 
 
-main()
+if __name__ == "__main__":
+    gtfsAnalyzer()
