@@ -9,6 +9,6 @@ Usage in python sourcecode:
 Version: 2021-06-02 ... Version 001
 '''
 
-db_username = "root"      # "yourusername"
+db_username = "root"  # "yourusername"
 db_password = "secretpw"  # "yourpassword"
 db_name = "gtfs01"  # Test with this databasename == feedpath

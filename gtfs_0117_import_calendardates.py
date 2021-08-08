@@ -18,21 +18,21 @@ import sys
 from sys import exit
 import gtfs_0100_my_db_auth
 
-def main() :
-    
+
+def main():
     import gtfs_0100_my_db_auth
     db_username = gtfs_0100_my_db_auth.db_username
     db_password = gtfs_0100_my_db_auth.db_password
-    db_name = gtfs_0100_my_db_auth.db_name # Test with this databasename
+    db_name = gtfs_0100_my_db_auth.db_name  # Test with this databasename
 
     # Read one program parameter. This is the feed path AND database name.
     arguments_number = len(sys.argv) - 1
-    if(arguments_number == 1) :
+    if arguments_number == 1:
         db_name = sys.argv[1]
-    else :
-        print ("ERROR: missing parameter 'databasename == feedpath'.")    
-        #exit(1)   # Exit the programm with error code "1"        
-        
+    else:
+        print("ERROR: missing parameter 'databasename == feedpath'.")
+        # exit(1)   # Exit the programm with error code "1"
+
     #### Values
     fileName = db_name + "/calendar_dates.txt"  # file from feed path "db_name"
 
@@ -65,21 +65,21 @@ def main() :
     mycursor.execute(sql)
 
     #### Read the text file line by line, import each line
-    n = m = 0   # n is the line counter
+    n = m = 0  # n is the line counter
     firstLine = True
-    with open(fileName, "r", encoding="utf-8-sig") as file :  # "utf-8-sig" removes BOM
-        
+    with open(fileName, "r", encoding="utf-8-sig") as file:  # "utf-8-sig" removes BOM
+
         reader = csv.reader(file)
         for row in reader:
-            #print("TEST row=" + str(row))  # TEST
-        
-            if firstLine == True :
+            # print("TEST row=" + str(row))  # TEST
+
+            if firstLine == True:
                 firstLine = False
                 # Read the first line - the table header
                 headerLineArray = row
-                #print("TEST: Header-Array = " + str(headerLineArray))
-                field_number = len(headerLineArray) 
-                
+                # print("TEST: Header-Array = " + str(headerLineArray))
+                field_number = len(headerLineArray)
+
                 # Find the position of all the fields of the table
                 service_id_pos = -1
                 exception_type_pos = -1
@@ -90,15 +90,15 @@ def main() :
                     exception_type_pos = headerLineArray.index("exception_type")
                 if "date" in headerLineArray:
                     date_pos = headerLineArray.index("date")
-            else :
-                
+            else:
+
                 # Read the data of a line into an array
                 lineArray = row
-                if len(lineArray) >= field_number :
-                    service_id = lineArray[service_id_pos]        
+                if len(lineArray) >= field_number:
+                    service_id = lineArray[service_id_pos]
                     exception_type = lineArray[exception_type_pos]
-                    date = lineArray[date_pos]        
-                    
+                    date = lineArray[date_pos]
+
                     # Eintrag in MySQL Tabelle
                     sql = '''
                         INSERT INTO calendar_dates
@@ -116,17 +116,17 @@ def main() :
                     n = n + 1
 
                     # Progress-feedback every 10.000 lines
-                    #m = m + 1 
-                    #if m >= 10000 :
+                    # m = m + 1
+                    # if m >= 10000 :
                     #    m = 0
                     #    print("  Progress: %s" % n)
-                
-    
+
     # Altering tables requires commit. It is faster 
     #   doing this only one time, at the very end.
-    mydb.commit() 
+    mydb.commit()
 
     duration = time() - start_time
     print("Import OK ... %s rows in %.2f seconds" % (n, duration))
+
 
 main()

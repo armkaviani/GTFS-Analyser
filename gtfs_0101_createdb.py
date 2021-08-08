@@ -12,21 +12,21 @@ from time import time
 import sys
 from sys import exit
 
-def main() :
-    
+
+def main():
     import gtfs_0100_my_db_auth
     db_username = gtfs_0100_my_db_auth.db_username
     db_password = gtfs_0100_my_db_auth.db_password
-    db_name = gtfs_0100_my_db_auth.db_name # Test with this databasename
+    db_name = gtfs_0100_my_db_auth.db_name  # Test with this databasename
 
     # Read one program parameter. This ist the database name.
     arguments_number = len(sys.argv) - 1
-    if(arguments_number == 1) :
+    if arguments_number == 1:
         db_name = sys.argv[1]
-    else :
-        print ("ERROR: missing parameter 'databasename'.")    
-        #exit(1)   # Exit the programm with error code "1"
-        
+    else:
+        print("ERROR: missing parameter 'databasename'.")
+        # exit(1)   # Exit the programm with error code "1"
+
     # Action start
     print("Start creating DB '%s'." % db_name)
     start_time = time()
@@ -46,7 +46,7 @@ def main() :
     sql = "CREATE DATABASE IF NOT EXISTS %s" % db_name
     print("SQL_2: %s" % sql)
     mycursor.execute(sql)
-    
+
     # altering tables requires commit
     mydb.commit()
 
@@ -54,5 +54,6 @@ def main() :
     duration = time() - start_time
     print("DB '%s' created after %.2f seconds OK."
           % (db_name, duration))
+
 
 main()
