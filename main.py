@@ -7,7 +7,7 @@ Version: 2021-05-06 ... Version 003
 '''
 import sys
 from time import time
-from gtfs_book_modules import gtfs_book_feed_unzip
+from utilities import GTFSFeedUnzipper
 from utilities import GTFSFeedDownloader
 import argparse
 
@@ -17,7 +17,6 @@ def gtfsAnalyzer():
     FilePath = "GTFSFeeds"
 
     TempZipFile = "TempZipFile.zip"
-
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-u',
@@ -55,8 +54,8 @@ def gtfsAnalyzer():
     duration = time() - start_time
     print("Download finished after %.2f seconds." % duration)
 
-    unzipperObject = gtfs_book_feed_unzip.Unzip()
-    unzipperObject.unzipper(FilePath, TempZipFile)
+    FeedUnzipperObj = GTFSFeedUnzipper.FeedUnzipper(FilePath, TempZipFile)
+    FeedUnzipperObj.Unzipper()
 
     duration = time() - start_time
 
