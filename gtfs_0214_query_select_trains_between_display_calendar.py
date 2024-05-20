@@ -27,33 +27,33 @@ import gtfs_0100_my_db_auth
 
 db_username = gtfs_0100_my_db_auth.db_username
 db_password = gtfs_0100_my_db_auth.db_password
-db_name = gtfs_0100_my_db_auth.db_name # Test with this databasename
+db_name = gtfs_0100_my_db_auth.db_name  # Test with this databasename
 
 # Read the program parameter. This is the database name.
 arguments_number = len(sys.argv) - 1
-if(arguments_number == 1) :
+if arguments_number == 1:
     db_name = sys.argv[1]
-else :
-    print ("ERROR: missing parameter 'databasename'.")    
-    #exit(1)   # Exit the programm with error code "1"
-    
+else:
+    print("ERROR: missing parameter 'databasename'.")
+    # exit(1)   # Exit the programm with error code "1"
+
 # this_stop_name is e.g.'= "Berlin Hbf"' or 'LIKE "Berlin Hbf%"'
-this_stop_name = 'LIKE "Berlin Hbf%"' 
+this_stop_name = 'LIKE "Berlin Hbf%"'
 
 # two pair of times – the second pair is for trains over midnight
 min_time_string = '00:30:00.000'
 max_time_string = '01:30:00.000'
 min_time2_string = '24:30:00.000'  # min_time_string + 24h
 max_time2_string = '25:30:00.000'  # max_time_string + 24h
-    
+
 print("Query on database = %s" % db_name)
 start_time = time()
 
 mydb = mysql.connector.connect(
-    host = "localhost",
-    user = db_username,
-    password = db_password,
-    database = db_name
+    host="localhost",
+    user=db_username,
+    password=db_password,
+    database=db_name
 )
 
 mycursor = mydb.cursor()
@@ -82,7 +82,7 @@ sql = f"""
 print(sql)
 mycursor.execute(sql)
 myresult = mycursor.fetchall()
-#print("%s lines in myresult" % len(myresult)) #TEST
+# print("%s lines in myresult" % len(myresult)) #TEST
 
 for x in myresult:
     print(x)
